@@ -32,9 +32,11 @@ class Bst:
         total = 0
         if self.value == value:
             total += 1
-        if self.left is not None:
-            return total + self.left.count(value)
-
+        if value > self.value and self.right is not None:
+            total += self.right.count(value)
+        elif self.left is not None:
+            total += self.left.count(value)
+        return total
 
 def initialize_bsts():
     problem_input = utils.read_input("../input/day1input.txt")
@@ -54,6 +56,13 @@ def day1part1():
         distance += abs(left_val - right_val)
     print(distance)
 
+def day1part2():
+    left_bst, right_bst = initialize_bsts()
+    total_similarity = 0
+    for left_val in left_bst.generate():
+        total_similarity += left_val * right_bst.count(left_val)
+    print(total_similarity)
 
 if __name__ == "__main__":
     day1part1()
+    day1part2()
