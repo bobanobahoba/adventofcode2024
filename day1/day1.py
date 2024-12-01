@@ -28,14 +28,25 @@ class Bst:
         if self.right is not None:
             yield from self.right.generate()
 
+    def count(self, value):
+        total = 0
+        if self.value == value:
+            total += 1
+        if self.left is not None:
+            return total + self.left.count(value)
 
-def day1part1():
+
+def initialize_bsts():
     problem_input = utils.read_input("../input/day1input.txt")
     left_bst, right_bst = map(Bst, map(int, problem_input[0].split()))
     for line in problem_input[1:]:
         left, right = map(int, line.split())
         left_bst.insert(left)
         right_bst.insert(right)
+    return left_bst, right_bst
+
+def day1part1():
+    left_bst, right_bst = initialize_bsts()
     left_gen, right_gen = left_bst.generate(), right_bst.generate()
     distance = 0
     for left_val in left_gen:
