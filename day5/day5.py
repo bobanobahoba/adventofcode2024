@@ -1,6 +1,6 @@
 import utils, sys
 
-def day5part1(input_file):
+def read_rules_and_updates(input_file):
     rules = {}
     updates = []
 
@@ -16,6 +16,10 @@ def day5part1(input_file):
                 rules[left].append(right)
             else:
                 rules[left] = [right]
+    return rules, updates
+
+def day5part1(input_file):
+    rules, updates = read_rules_and_updates(input_file)
     total_middles = 0
     for update in updates:
         if is_valid(update, rules):
