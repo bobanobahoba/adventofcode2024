@@ -2,9 +2,6 @@ import utils, sys
 
 directions = ['^', '>', 'v', '<']
 
-def day6part1(input_file):
-    input_lines = utils.read_input(input_file)
-    return get_path(input_lines)
 
 # infos are TUPLE OF (DIRECTION INDEX, TUPLE OF (LOCATION))
 
@@ -47,6 +44,26 @@ def validate(area_map, location):
     else:
         return True
 
+def day6part2(input_file):
+    input_lines = utils.read_input(input_file)
+    return count_loops(input_lines)
 
-if __name__ == "__main__":
-    print(day6part1(sys.argv[1]))
+def count_loops(area_map):
+    loops = 0
+    for row in range(len(area_map)):
+        for col in range(len(area_map[0])):
+            temp_area_map = area_map.copy()
+            if temp_area_map[row][col] == '#' or temp_area_map[row][col] in directions:
+                continue
+            else:
+                temp_area_map[row] = temp_area_map[row][:col] + '#' + temp_area_map[row][col + 1:]
+                prev_infos = set()
+                next_info = get_start_info(area_map)
+                prev_infos.add(next_info)
+                while next_info is not None:
+                    next_info = get_next(temp_area_map, next_info)
+                    if next_info in prev_infos:
+                        loops += 1
+                        break
+                    prev_infos.add(next_info)
+    return loops
