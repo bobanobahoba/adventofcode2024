@@ -44,10 +44,6 @@ def validate(area_map, location):
     else:
         return True
 
-def day6part2(input_file):
-    input_lines = utils.read_input(input_file)
-    return count_loops(input_lines)
-
 def count_loops(area_map):
     loops = 0
     for row in range(len(area_map)):
