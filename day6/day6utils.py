@@ -1,7 +1,7 @@
 import utils, sys
 
-directions = ['^', '>', 'v', '<']
-
+directions_ordered = ['^', '>', 'v', '<']
+direction_vector = {0: (-1, 0), 1: (0, 1), 2: (1, 0), 3: (0, -1)}
 
 # infos are TUPLE OF (DIRECTION INDEX, TUPLE OF (LOCATION))
 
@@ -16,19 +16,12 @@ def get_path(area_map):
 def get_start_info(area_map):
     for row in range(len(area_map)):
         for col in range(len(area_map[0])):
-            if area_map[row][col] in directions:
-                return directions.index(area_map[row][col]), (row, col)
+            if area_map[row][col] in directions_ordered:
+                return directions_ordered.index(area_map[row][col]), (row, col)
 
 def get_next(area_map, info):
     direction, location = info[0], info[1]
-    if direction == 0:
-        next_location = (location[0] - 1, location[1])
-    elif direction == 1:
-        next_location = (location[0], location[1] + 1)
-    elif direction == 2:
-        next_location = (location[0] + 1, location[1])
-    else:
-        next_location = (location[0], location[1] - 1)
+    next_location = (location[0] + direction_vector[direction][0], location[1] + direction_vector[direction][1])
     if not validate(area_map, next_location):
         return None
     elif area_map[next_location[0]][next_location[1]] == '#':
@@ -49,7 +42,7 @@ def count_loops(area_map):
     for row in range(len(area_map)):
         for col in range(len(area_map[0])):
             temp_area_map = area_map.copy()
-            if temp_area_map[row][col] == '#' or temp_area_map[row][col] in directions:
+            if temp_area_map[row][col] == '#' or temp_area_map[row][col] in direction_vector:
                 continue
             else:
                 temp_area_map[row] = temp_area_map[row][:col] + '#' + temp_area_map[row][col + 1:]
