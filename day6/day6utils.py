@@ -1,5 +1,3 @@
-import utils, sys
-
 directions_ordered = ['^', '>', 'v', '<']
 direction_vector = {0: (-1, 0), 1: (0, 1), 2: (1, 0), 3: (0, -1)}
 
